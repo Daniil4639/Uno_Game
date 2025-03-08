@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
 });
 
 function getRoomsList() {
-    fetch("http://localhost:9999/api/rooms")
+    fetch('/api/rooms')
         .then(response => response.json())
         .then(data => addRoomsToList(data))
         .catch(error => console.error(error));
@@ -62,6 +62,10 @@ function addRoomsToList(rooms) {
 
             list_el.appendChild(room_el);
 
-            room_join_el.addEventListener('click', (e) => {console.log('Join clicked!')});
+            room_join_el.addEventListener('click', (e) => {
+                console.log('Join clicked!')
+
+                window.location.href = ('/uno/game?room_id=' + room.roomId);
+            });
     });
 }
