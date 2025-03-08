@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UNO - Game: Rooms</title>
+
+    <script src="" th:src="@{/js/rooms.js}"></script>
+    <link rel="stylesheet" href="" th:href="@{/styles/rooms.css}">
+</head>
+<body>
+    <header>
+        <h1>Uno - Game</h1>
+        <form id="username-form">
+            <input
+                    type="text"
+                    name="username-input"
+                    id="username-input"
+                    placeholder="What's your name?" />
+            <input
+                    type="submit"
+                    id="update-rooms"
+                    value="Update list" />
+        </form>
+    </header>
+
+    <main>
+        <section class="room-list">
+            <h2>Rooms</h2>
+
+            <div id="rooms">
+
+                <div class="room">
+                    <div class="content">
+                        <label>
+                            <input
+                                    type="text"
+                                    class="text"
+                                    value="Default name"
+                                    readonly
+                            />
+                        </label>
+                    </div>
+
+                    <div class="actions">
+                        <input
+                                type="text"
+                                class="text"
+                                value="1/12"
+                                readonly
+                        />
+                        <button class="join">Join</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="button_folder">
+            <button class="create">Create room</button>
+        </section>
+    </main>
+</body>
+</html>
