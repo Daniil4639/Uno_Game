@@ -176,12 +176,12 @@ button.accent {
 }
 
 #chat-page .chat-message span {
-    color: #333;
+    color: #777;
     font-weight: 600;
 }
 
 #chat-page .chat-message p {
-    color: #43464b;
+    color: var(--light);
 }
 
 #messageForm .input-group input {

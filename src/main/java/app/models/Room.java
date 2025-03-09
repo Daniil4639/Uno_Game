@@ -12,23 +12,28 @@ public class Room {
 
     private Long id;
     private String name;
-    private List<User> users;
+    private List<String> users;
+
+    private Long userNumber;
 
     public Room(Long id, String name) {
         this.id = id;
         this.name = name;
         this.users = new ArrayList<>();
+
+        this.userNumber = 0L;
     }
 
-    public void incrementUsers(User user) {
+    public void incrementUsers(String user) {
         users.add(user);
+        userNumber += 1;
     }
 
-    public void decrementUsers(User user) {
+    public void decrementUsers(String user) {
         users.remove(user);
     }
 
     public boolean isSuchNameAlreadyExists(String name) {
-        return users.stream().anyMatch(user -> user.getName().equals(name));
+        return users.stream().anyMatch(user -> user.equals(name));
     }
 }

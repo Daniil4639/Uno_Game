@@ -1,11 +1,13 @@
 window.addEventListener('load', () => {
     const form = document.getElementById("username-form");
 
-	form.addEventListener('submit', (e) => {
+	form.addEventListener('click', (e) => {
 		e.preventDefault();
 
         getRoomsList();
 	});
+
+	document.getElementById('create_room').addEventListener('click', (e) => createRoomAndEnter());
 
 	document.getElementById('update-rooms').click();
 });
@@ -15,6 +17,33 @@ function getRoomsList() {
         .then(response => response.json())
         .then(data => addRoomsToList(data))
         .catch(error => console.error(error));
+}
+
+function createRoomAndEnter() {
+    var username = document.getElementById('username-input').value;
+
+    if (username) {
+        fetch('/api/rooms', {
+            method: 'POST',
+            body: (username + '`s room')
+        })
+        .then(response => {
+            if (response.status == 200) {
+                return response.json();
+            }
+            else {
+                throw new Error('Could not create a room!');
+            }
+        })
+        .then(data => {
+            window.location.href = ('/uno/game?room_id=' + data.roomId +
+                '&username=' + username);
+        })
+        .catch(error => alert(error));
+    }
+    else {
+        alert('Choose your username!');
+    }
 }
 
 function addRoomsToList(rooms) {
@@ -63,9 +92,24 @@ function addRoomsToList(rooms) {
             list_el.appendChild(room_el);
 
             room_join_el.addEventListener('click', (e) => {
-                console.log('Join clicked!')
+                var username = document.getElementById('username-input').value;
 
-                window.location.href = ('/uno/game?room_id=' + room.roomId);
+                if (username) {
+                    fetch('/api/rooms/' + room.roomId + '/check-name?name=' + username)
+                        .then(response => {
+                            if (response.status == 200) {
+                                window.location.href = ('/uno/game?room_id=' + room.roomId +
+                                    '&username=' + document.getElementById('username-input').value);
+                            }
+                            else if (response.status == 409) {
+                                alert('Name ' + username + ' already exists in this room!');
+                            }
+                        })
+                        .catch(error => console.error(error));
+                }
+                else {
+                    alert('Choose your username!');
+                }
             });
     });
 }

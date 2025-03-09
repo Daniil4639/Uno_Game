@@ -2,7 +2,6 @@ package app.services;
 
 import app.exceptions.SuchNameAlreadyExists;
 import app.models.Room;
-import app.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,23 +10,19 @@ import java.util.*;
 public class RoomService {
 
     private final Map<Long, Room> rooms;
+    private Long roomsNumber;
 
     public RoomService() {
-        rooms = new HashMap<>() {{
-            Room room1 = new Room(1L, "First room");
-            room1.getUsers().add(new User(1L, "Никита"));
-
-            Room room2 = new Room(2L, "Second room");
-            room2.getUsers().add(new User(2L, "Илья"));
-            room2.getUsers().add(new User(3L, "Даниил"));
-
-            put(1L, room1);
-            put(2L, room2);
-        }};
+        rooms = new HashMap<>() {};
+        roomsNumber = 0L;
     }
 
     public Collection<Room> getRooms() {
         return rooms.values();
+    }
+
+    public Room getRoom(Long roomId) {
+        return rooms.get(roomId);
     }
 
     public void checkNameInRoom(Long roomId, String name) {
@@ -36,16 +31,21 @@ public class RoomService {
         }
     }
 
-    public Room createRoom(Long roomId, String name) {
-        rooms.put(roomId, new Room(roomId, name));
-        return rooms.get(roomId);
+    public Room createRoom(String name) {
+        rooms.put(roomsNumber, new Room(roomsNumber, name));
+        roomsNumber += 1;
+        return rooms.get(roomsNumber - 1);
     }
 
-    public void addUser(Long roomId, User user) {
+    public void addUser(Long roomId, String user) {
         rooms.get(roomId).incrementUsers(user);
     }
 
-    public void deleteUser(Long roomId, User user) {
+    public void deleteUser(Long roomId, String user) {
         rooms.get(roomId).decrementUsers(user);
+
+        if (rooms.get(roomId).getUsers().isEmpty()) {
+            rooms.remove(roomId);
+        }
     }
 }

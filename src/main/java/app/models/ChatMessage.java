@@ -12,8 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatMessage {
 
-    private Long roomId;
-    private User sender;
+    private String sender;
     private MessageType type;
     private String content;
 }

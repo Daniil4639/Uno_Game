@@ -22,6 +22,11 @@ public class RoomsConnectionController {
                 .toList();
     }
 
+    @GetMapping("/{roomId}")
+    public RoomDTO getRoom(@PathVariable("roomId") Long roomId) {
+        return new RoomDTO(roomService.getRoom(roomId));
+    }
+
     @GetMapping("/{roomId}/check-name")
     public String checkUserNameInRoom(@RequestParam("name") String name,
                                       @PathVariable("roomId") Long roomId) {
@@ -30,10 +35,10 @@ public class RoomsConnectionController {
         return name;
     }
 
-    @PostMapping("/{roomId}")
-    public RoomDTO createRoom(@RequestParam("name") String name,
-                              @PathVariable("roomId") Long roomId) {
+    @PostMapping()
+    public RoomDTO createRoom(@RequestBody String name) {
 
-        return new RoomDTO(roomService.createRoom(roomId, name));
+        System.out.println(name);
+        return new RoomDTO(roomService.createRoom(name));
     }
 }
